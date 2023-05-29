@@ -2,7 +2,7 @@ import tkinter as tk
 import tkinter.ttk as ttk
 
 class Application(tk.Frame):
-
+    
     def __init__(self, master=None):
         tk.Frame.__init__(self, master)
         self.grid()
@@ -73,8 +73,6 @@ class Application(tk.Frame):
         # Insere cada item dos dados
         for item in self.data:
             self.tree.insert('', 'end', values=item)
-            
-            
 
 if __name__ == '__main__':
     root = tk.Tk()
