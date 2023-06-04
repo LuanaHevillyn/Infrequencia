@@ -1,6 +1,13 @@
-from tkinter import *
-from tkinter import Tk
-from tkinter import messagebox
+try:
+    from tkinter import *
+    from tkinter import Tk
+    from tkinter import messagebox
+    import pymysql
+except:
+    from Tkinter import *
+    from tkinter import Tk
+    from tkinter import messagebox
+    import pymysql
 
 
 corVerde = "#00FF00"
@@ -10,10 +17,14 @@ corPreta = "#000000"
 corRoxo = "#8A2BE2"
 
 
-def Menu():
-    
-    from Menu import Menu
-    Menu()
+janela = Tk()
+janela.title('Login')
+janela.geometry('500x350')
+janela.configure(background=corBranca)
+janela.resizable(width=FALSE, height=FALSE)
+
+
+
    
 def CadastraJan():
     
@@ -21,12 +32,36 @@ def CadastraJan():
     Cadastro()
    
 #criando a aba login
+def Menu():
+    
+    armazenar_nome = email.get()
+    armazenar_senha = senha.get()
+    
 
-janela = Tk()
-janela.title('Login')
-janela.geometry('500x350')
-janela.configure(background=corBranca)
-janela.resizable(width=FALSE, height=FALSE)
+    print(armazenar_nome, armazenar_senha)
+    
+    
+    connection = pymysql.connect(host="localhost", 
+                                    user="root", 
+                                    passwd="", 
+                                    database="infrequencia")
+    cursor = connection.cursor()
+
+    query = (f'SELECT * FROM cadastro WHERE email = "{armazenar_nome}" AND senha = "{armazenar_senha}"')
+    cursor.execute(query)
+    results = cursor.fetchall()    
+    connection.commit()
+    connection.close()
+    if results:
+        
+       for i in results:      
+        from Menu import Menu
+        Menu()
+        
+    else:
+        messagebox.showinfo("Aviso", 'Usuário e senha inválidos!')
+
+
 
 #dividindo a janela
 frame_cima = Frame(janela, width=500, height=50, relief='flat', bg=corRoxo)
@@ -37,17 +72,18 @@ l_login = Label(frame_cima, text='LOGIN', anchor=NE, font=("Arial", 20, "bold"),
 l_login.place(x=200, y=3)
 
 
-email = Label(janela, text='E-mail', font=("Arial", 15, "bold"), fg=corRoxo, bg=corBranca)
-email.place(x=85, y=130)
+emailEnt = Label(janela, text='E-mail', font=("Arial", 15, "bold"), fg=corRoxo, bg=corBranca)
+emailEnt.place(x=85, y=130)
 
-email1 = Entry(janela, width=40, bg=corBranca, fg=corRoxo)
-email1.place(in_= email, x=88, y=0, height=30)
+email = Entry(janela, width=40, bg=corBranca, fg=corRoxo)
+email.place(in_= emailEnt, x=88, y=0, height=30)
 
-senha = Label(janela, text='Senha', font=("Arial", 15, "bold"), fg=corRoxo, bg=corBranca)
-senha.place(x=85, y=180)
+senhaEnt = Label(janela, text='Senha', font=("Arial", 15, "bold"), fg=corRoxo, bg=corBranca)
+senhaEnt.place(x=85, y=180)
 
-senha1 = Entry(janela, width=40, bg=corBranca, fg=corRoxo)
-senha1.place(in_= senha, x=88, y=0, height=30)
+
+senha = Entry(janela, width=40, bg=corBranca, fg=corRoxo)
+senha.place(in_= senhaEnt, x=88, y=0, height=30)
 
 botaoEnt = Button(janela, width=15, text='Entrar', font=("Arial", 10, "bold"), fg=corBranca, bg=corRoxo, command = Menu)
 botaoEnt.place(x=85, y=250)
