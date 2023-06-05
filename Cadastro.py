@@ -1,13 +1,7 @@
-try:
-    from tkinter import *
-    from tkinter import Tk
-    from tkinter import messagebox
-    import pymysql
-except:
-    from Tkinter import *
-    from tkinter import Tk
-    from tkinter import messagebox
-    import pymysql
+from tkinter import *
+from tkinter import Tk
+from tkinter import messagebox
+import pymysql
 
 
 corVerde = "#00FF00"

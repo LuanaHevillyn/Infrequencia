@@ -8,6 +8,8 @@ except:
     from tkinter import Tk
     from tkinter import messagebox
     import pymysql
+    import datetime 
+
 
 
 corVerde = "#00FF00"
@@ -23,8 +25,6 @@ janela.geometry('500x350')
 janela.configure(background=corBranca)
 janela.resizable(width=FALSE, height=FALSE)
 
-
-
    
 def CadastraJan():
     
@@ -32,7 +32,7 @@ def CadastraJan():
     Cadastro()
    
 #criando a aba login
-def Menu():
+def menu():
     
     armazenar_nome = email.get()
     armazenar_senha = senha.get()
@@ -55,8 +55,25 @@ def Menu():
     if results:
         
        for i in results:      
-        from Menu import Menu
-        Menu()
+        from Menu import menu
+        menu()
+        
+                    
+        hoje = datetime.date.today()
+        agora = datetime.datetime.now()
+        agora_string = agora.strftime("%I:%M")
+        
+        
+        connection = pymysql.connect(host="localhost", 
+                                    user="root", 
+                                    passwd="", 
+                                    database="infrequencia")
+        cursor = connection.cursor()
+
+        query = (f'UPDATE cadastro SET data = "{hoje}", horario = "{agora_string}" WHERE email =  %s' % str(armazenar_nome) )
+        cursor.execute(query)
+        connection.commit()
+        connection.close()
         
     else:
         messagebox.showinfo("Aviso", 'Usuário e senha inválidos!')
@@ -85,7 +102,7 @@ senhaEnt.place(x=85, y=180)
 senha = Entry(janela, width=40, bg=corBranca, fg=corRoxo)
 senha.place(in_= senhaEnt, x=88, y=0, height=30)
 
-botaoEnt = Button(janela, width=15, text='Entrar', font=("Arial", 10, "bold"), fg=corBranca, bg=corRoxo, command = Menu)
+botaoEnt = Button(janela, width=15, text='Entrar', font=("Arial", 10, "bold"), fg=corBranca, bg=corRoxo, command = menu)
 botaoEnt.place(x=85, y=250)
 
 botaoCad = Button(janela, width=15, text='Cadastrar', font=("Arial", 10, "bold"), fg=corBranca, bg=corRoxo, command = CadastraJan)

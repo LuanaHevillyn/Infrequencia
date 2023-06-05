@@ -7,14 +7,14 @@ corLaranja = "#da4f1c"
 corPreta = "#000000"
 corRoxo = "#8A2BE2"
 
-
-def relatorio(): 
-    from Chamada import Application
-    Application()
-   
-def Chamada():
+def relatorio():     
     from relatorio import Relatorio
     Relatorio()
+
+   
+def Chamada():
+    from Chamada import Chamada
+    Chamada()
    
 janela = Tk()
 janela.title('Menu')
